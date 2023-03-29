@@ -4,16 +4,16 @@ import { LanguageCodeEnum } from "../saleor/api";
 
 export const LOCALES = [
   {
-    slug: "en-US",
+    slug: "en",
     code: "EN_US" as LanguageCodeEnum,
-    name: "American English",
+    name: "English",
   },
-  { slug: "pl-PL", code: "PL_PL" as LanguageCodeEnum, name: "Polski" },
-  { slug: "fr-FR", code: "FR_FR" as LanguageCodeEnum, name: "Français" },
-  { slug: "vi-VN", code: "VI_VN" as LanguageCodeEnum, name: "Việt Nam" },
-  { slug: "ar-AE", code: "AR_AE" as LanguageCodeEnum, name: "العربية" },
+  // { slug: "pl-PL", code: "PL_PL" as LanguageCodeEnum, name: "Polski" },
+  // { slug: "fr-FR", code: "FR_FR" as LanguageCodeEnum, name: "Français" },
+  // { slug: "vi-VN", code: "VI_VN" as LanguageCodeEnum, name: "Việt Nam" },
+  // { slug: "ar-AE", code: "AR_AE" as LanguageCodeEnum, name: "العربية" },
 ];
-export const DEFAULT_LOCALE = "en-US";
+export const DEFAULT_LOCALE = "en";
 
 export const CHANNEL_SLUG_KEY = "channelSlug";
 
@@ -24,33 +24,33 @@ export interface Channel {
 }
 
 export const DEFAULT_CHANNEL: Channel = {
-  slug: "default-channel",
-  name: "United States Dollar",
-  currencyCode: "USD",
+  slug: "ug",
+  name: "Ugandan Shilling",
+  currencyCode: "UGX",
 };
 
 export const CHANNELS: Channel[] = [
   DEFAULT_CHANNEL,
-  {
-    slug: "channel-pln",
-    name: "Polski Złoty",
-    currencyCode: "PLN",
-  },
-  {
-    slug: "channel-fr",
-    name: "Euro",
-    currencyCode: "EUR",
-  },
-  {
-    slug: "channel-vi",
-    name: "Việt Nam đồng",
-    currencyCode: "VND",
-  },
-  {
-    slug: "channel-ae",
-    name: "درهم",
-    currencyCode: "AED",
-  },
+  // {
+  //   slug: "channel-pln",
+  //   name: "Polski Złoty",
+  //   currencyCode: "PLN",
+  // },
+  // {
+  //   slug: "channel-fr",
+  //   name: "Euro",
+  //   currencyCode: "EUR",
+  // },
+  // {
+  //   slug: "channel-vi",
+  //   name: "Việt Nam đồng",
+  //   currencyCode: "VND",
+  // },
+  // {
+  //   slug: "channel-ae",
+  //   name: "درهم",
+  //   currencyCode: "AED",
+  // },
 ];
 
 export interface RegionCombination {
