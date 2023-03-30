@@ -1,1 +1,1 @@
-web: ls -l && cd apps/saleor-app-checkout && pnpm start
+web: cd /app/apps/saleor-app-checkout && pnpm start
