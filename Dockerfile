@@ -50,8 +50,6 @@ ENV filter --filter=${APP}...
 
 RUN pnpm turbo run build ${filter}}
 
-
-
 EXPOSE ${PORT}
 
 CMD pnpm run start ${filter}
