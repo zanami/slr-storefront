@@ -1,29 +1,17 @@
-FROM node:16-slim AS deps
+FROM node:16-slim
 WORKDIR /app
 
-# Install deps packages
-COPY package.json pnpm-lock.yaml ./
-
-# Setup pnpm package manager
-RUN npm install -g pnpm@7.11.0
+# Setup proxy to API used in saleor-platform
+#RUN apt-get update && apt-get install -y nginx jq
+#COPY apps/storefront/nginx/dev.conf /etc/nginx/conf.d/default.conf
 
 RUN apt-get update && apt-get install -y jq
 
+COPY . .
+
 # Remove Cypress from dependencies
 RUN jq 'del(.devDependencies.cypress)' package.json > _.json && mv _.json package.json
-#RUN pnpm install --frozen-lockfile
-RUN pnpm install
-
-FROM node:16-slim
-
-WORKDIR /app
-
-# Setup pnpm package manager
-RUN npm install -g pnpm@7.11.0
-
-COPY --from=deps /app/node_modules ./node_modules
-
-COPY . .
+RUN pnpm install --frozen-lockfile
 
 # Env variables
 RUN rm .env
