@@ -1,0 +1,10 @@
+{
+  "formation": {
+    "web": {
+      "max_parallel": 1
+    },
+    "worker": {
+      "max_parallel": 4
+    }
+  }
+}
