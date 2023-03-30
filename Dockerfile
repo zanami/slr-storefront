@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y jq
 
 # Remove Cypress from dependencies
 RUN jq 'del(.devDependencies.cypress)' package.json > _.json && mv _.json package.json
-RUN pnpm install --frozen-lockfile
+#RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 FROM node:16-slim
 
