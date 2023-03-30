@@ -51,6 +51,7 @@ RUN echo App is "${APP}"
 RUN [ -z "${APP}" ] && echo "APP is required" && exit 1 || true
 ENV filter --filter=${APP}...
 
+
 RUN pnpm turbo run build ${filter}
 
 EXPOSE ${PORT}
