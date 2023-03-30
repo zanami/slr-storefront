@@ -52,4 +52,4 @@ ENV filter --filter=${APP}...
 
 EXPOSE ${PORT}
 
-CMD ["pnpm","run","start", filter]
+CMD pnpm run start ${filter}
