@@ -46,6 +46,7 @@ ENV SENTRY_RELEASE ${SENTRY_RELEASE}
 ENV ENABLE_EXPERIMENTAL_COREPACK 1
 
 ARG APP
+RUN echo App is "$APP"
 RUN test -n "$APP" || (echo "APP  not set" && false)
 ENV filter --filter=${APP}...
 
