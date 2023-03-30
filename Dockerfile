@@ -14,7 +14,7 @@ COPY . .
 
 # Remove Cypress from dependencies
 RUN jq 'del(.devDependencies.cypress)' package.json > _.json && mv _.json package.json
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 # Env variables
 RUN rm .env
