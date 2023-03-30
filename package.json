@@ -29,7 +29,8 @@
     "clean-deps": "turbo run clean && rm -rf node_modules **/node_modules pnpm-lock.yaml",
     "clean": "rm -rf .turbo; turbo run clean",
     "cy:run": "cypress run",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "heroku-postbuild": "pnpm run build:saleor-app-checkout"
   },
   "devDependencies": {
     "cypress": "10.11.0",
