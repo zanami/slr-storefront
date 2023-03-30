@@ -1,6 +1,9 @@
 FROM node:16-slim
 WORKDIR /app
 
+# Setup pnpm package manager
+RUN npm install -g pnpm@7.11.0
+
 # Setup proxy to API used in saleor-platform
 #RUN apt-get update && apt-get install -y nginx jq
 #COPY apps/storefront/nginx/dev.conf /etc/nginx/conf.d/default.conf
