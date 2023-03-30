@@ -45,10 +45,12 @@ ENV SENTRY_RELEASE ${SENTRY_RELEASE}
 
 ENV ENABLE_EXPERIMENTAL_COREPACK 1
 
-RUN pnpm turbo run build
-
 ARG APP
 ENV filter --filter=${APP}...
+
+RUN pnpm turbo run build ${filter}}
+
+
 
 EXPOSE ${PORT}
 
