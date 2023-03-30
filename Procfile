@@ -1,1 +1,1 @@
-web: cd apps/saleor-app-checkout && next start -p 3001
+web: cd apps/saleor-app-checkout && pnpm start
