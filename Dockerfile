@@ -47,7 +47,8 @@ ENV ENABLE_EXPERIMENTAL_COREPACK 1
 
 ARG APP
 RUN echo App is "$APP"
-RUN test -n "$APP" || (echo "APP  not set" && false)
+#RUN test -n "$APP" || (echo "APP  not set" && false)
+RUN ["/bin/bash", "-c", ": ${APP:?Build argument needs to be set and not null.}"]
 ENV filter --filter=${APP}...
 
 RUN pnpm turbo run build ${filter}
