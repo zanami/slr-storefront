@@ -17,9 +17,14 @@ RUN pnpm install
 FROM node:16-slim
 
 WORKDIR /app
+
+# Setup pnpm package manager
+RUN npm install -g pnpm@7.11.0
+
 COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
+
 # Env variables
 RUN rm .env
 
