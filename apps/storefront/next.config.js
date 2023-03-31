@@ -52,7 +52,7 @@ module.exports = withBundleAnalyzer({
     ];
   },
   async rewrites() {
-    // const cloudDeploymentUrl = process.env.CLOUD_DEPLOYMENT_URL;
+    const cloudDeploymentUrl = process.env.CLOUD_DEPLOYMENT_URL;
 
     return [
       {
