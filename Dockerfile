@@ -31,8 +31,8 @@ ENV CHECKOUT_APP_URL ${CHECKOUT_APP_URL:-http://localhost:3001}
 ARG CHECKOUT_STOREFRONT_URL
 ENV CHECKOUT_STOREFRONT_URL ${CHECKOUT_STOREFRONT_URL:-http://localhost:3001/checkout-spa/}
 
-ARG CLOUD_DEPLOYMENT_URL https://prod.demo.saleor.cloud
-ENV CLOUD_DEPLOYMENT_URL ${CLOUD_DEPLOYMENT_URL:-https://prod.demo.saleor.cloud}
+# ARG CLOUD_DEPLOYMENT_URL https://prod.demo.saleor.cloud
+# ENV CLOUD_DEPLOYMENT_URL ${CLOUD_DEPLOYMENT_URL:-https://prod.demo.saleor.cloud}
 
 ARG SENTRY_DSN
 ENV SENTRY_DSN ${SENTRY_DSN}
