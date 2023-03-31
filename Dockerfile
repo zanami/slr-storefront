@@ -45,15 +45,15 @@ ENV SENTRY_RELEASE ${SENTRY_RELEASE}
 
 ENV ENABLE_EXPERIMENTAL_COREPACK 1
 
-ARG APP
-RUN echo App is "${APP}"
-#RUN test -n "$APP" || (echo "APP  not set" && false)
-RUN [ -z "${APP}" ] && echo "APP is required" && exit 1 || true
-ENV filter --filter=${APP}...
+# ARG APP
+# RUN echo App is "${APP}"
+# #RUN test -n "$APP" || (echo "APP  not set" && false)
+# RUN [ -z "${APP}" ] && echo "APP is required" && exit 1 || true
+# ENV filter --filter=${APP}...
 
 
-RUN pnpm turbo run build ${filter}
+# RUN pnpm turbo run build ${filter}
 
-EXPOSE ${PORT}
+# EXPOSE ${PORT}
 
-CMD pnpm run start ${filter}
+# CMD pnpm run start ${filter}
