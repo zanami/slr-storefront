@@ -319,10 +319,6 @@
     "developer_comment": "english usa",
     "string": "English (USA)"
   },
-  "PageHeader/messages/kd+Ya5": {
-    "developer_comment": "polish",
-    "string": "Polish"
-  },
   "PageNotFound/messages/Q7DOPP": {
     "developer_comment": "couldn't find info about your checkout",
     "string": "We couldn’t fetch information about your checkout. Go back to the store and try again."
