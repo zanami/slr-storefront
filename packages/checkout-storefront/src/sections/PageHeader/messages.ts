@@ -7,9 +7,4 @@ export const languagesMessages = defineMessages<Locale>({
     id: "PageHeader/messages/eXrxj4",
     description: "english usa",
   },
-  "pl-PL": {
-    defaultMessage: "Polish",
-    id: "PageHeader/messages/kd+Ya5",
-    description: "polish",
-  },
 });
