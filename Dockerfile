@@ -20,19 +20,19 @@ RUN pnpm install
 RUN rm .env
 
 ARG SALEOR_API_URL
-ENV SALEOR_API_URL ${SALEOR_API_URL:-https://api.kuuzamart.com/graphql/}
+ENV SALEOR_API_URL ${SALEOR_API_URL:-http://localhost:8000/graphql/}
 
 ARG STOREFRONT_URL
-ENV STOREFRONT_URL ${STOREFRONT_URL:-https://kuuzamart.com/}
+ENV STOREFRONT_URL ${STOREFRONT_URL:-http://localhost:3000}
 
 ARG CHECKOUT_APP_URL
-ENV CHECKOUT_APP_URL ${CHECKOUT_APP_URL:-https://checkout.kuuzamart.com/}
+ENV CHECKOUT_APP_URL ${CHECKOUT_APP_URL:-http://localhost:3001}
 
 ARG CHECKOUT_STOREFRONT_URL
-ENV CHECKOUT_STOREFRONT_URL ${CHECKOUT_STOREFRONT_URL:-https://checkout.kuuzamart.com//checkout-spa/}
+ENV CHECKOUT_STOREFRONT_URL ${CHECKOUT_STOREFRONT_URL:-http://localhost:3001/checkout-spa/}
 
-ARG CLOUD_DEPLOYMENT_URL 
-ENV CLOUD_DEPLOYMENT_URL ${CLOUD_DEPLOYMENT_URL:-https://kuuzamart.com/}
+# ARG CLOUD_DEPLOYMENT_URL https://prod.demo.saleor.cloud
+# ENV CLOUD_DEPLOYMENT_URL ${CLOUD_DEPLOYMENT_URL:-https://prod.demo.saleor.cloud}
 
 ARG SENTRY_DSN
 ENV SENTRY_DSN ${SENTRY_DSN}
