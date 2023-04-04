@@ -5,7 +5,7 @@ const withTM = require("next-transpile-modules")([
 ]);
 
 const isSentryEnabled = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
-
+console.log("ENV", process.env);
 const checkoutEmbededInStorefrontPath = "/saleor-app-checkout";
 
 /** @type {import('next').NextConfig} */

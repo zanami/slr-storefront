@@ -4,7 +4,7 @@ import { LanguageCodeEnum } from "../saleor/api";
 
 export const LOCALES = [
   {
-    slug: "en",
+    slug: "en-US",
     code: "EN_US" as LanguageCodeEnum,
     name: "English",
   },
@@ -13,7 +13,7 @@ export const LOCALES = [
   // { slug: "vi-VN", code: "VI_VN" as LanguageCodeEnum, name: "Việt Nam" },
   // { slug: "ar-AE", code: "AR_AE" as LanguageCodeEnum, name: "العربية" },
 ];
-export const DEFAULT_LOCALE = "en";
+export const DEFAULT_LOCALE = "en-US";
 
 export const CHANNEL_SLUG_KEY = "channelSlug";
 
