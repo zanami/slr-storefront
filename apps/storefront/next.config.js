@@ -75,12 +75,12 @@ module.exports = withBundleAnalyzer({
       },
 
       {
-        source: "/api/manifest",
-        destination: `${process.env.NEXT_PUBLIC_CHECKOUT_APP_URL}/api/manifest`,
+        source: "/api/manifest/",
+        destination: `${process.env.NEXT_PUBLIC_CHECKOUT_APP_URL}/api/manifest/`,
       },
       {
-        source: "/api/install",
-        destination: `${process.env.NEXT_PUBLIC_CHECKOUT_APP_URL}/api/install`,
+        source: "/api/install/",
+        destination: `${process.env.NEXT_PUBLIC_CHECKOUT_APP_URL}/api/install/`,
       },
       ...(cloudDeploymentUrl
         ? [
