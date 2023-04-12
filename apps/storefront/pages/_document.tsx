@@ -17,8 +17,8 @@ class MyDocument extends Document<{ lang?: string }> {
           <link rel="preconnect" href={`//${hostname}`} crossOrigin="true" />
           <link rel="dns-prefetch" href={`//${hostname}`} />
           <link
-            href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;800&display=swap"
             rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lexend:wght@400;500&display=swap"
           />
         </Head>
         <body spellCheck={false}>

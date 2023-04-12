@@ -136,7 +136,7 @@ export function FilteredProductList({
 
   return (
     <>
-      <div className="flex flex-col divide-y">
+      <div className="flex flex-col divide-y -mx-2">
         <div className="flex items-center">
           <div className="flex-grow">
             {attributeFiltersData.map((attribute) => (
@@ -167,7 +167,7 @@ export function FilteredProductList({
               }
             />
           </div>
-          <div className="flex-none text-main-2 text-base">
+          <div className="flex-none text-main-2 text-base px-2">
             <div>{itemsCounter} items</div>
           </div>
         </div>

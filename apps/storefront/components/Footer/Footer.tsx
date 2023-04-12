@@ -34,12 +34,12 @@ export function Footer({ className, ...rest }: FooterProps) {
 
   return (
     <footer className={clsx(styles.footer, className)} {...rest}>
-      <Box className={styles["footer-inner"]}>
+      <div className={styles["footer-inner"]}>
         <div className="flex mb-14 sm:mb-10">
           <Link href={paths.$url()} passHref legacyBehavior>
             <a href="pass" className="hidden sm:inline-block">
-              <div className="mt-px group block h-16 w-28 relative grayscale">
-                <Image src="/saleor.svg" alt="Saleor logo" layout="fill" />
+              <div className="mt-px group block h-[65px] w-[150px] relative grayscale">
+                <Image src="/kuuza-logo.png" alt="Kuuza Online Shopping" layout="fill" />
               </div>
             </a>
           </Link>
@@ -103,14 +103,14 @@ export function Footer({ className, ...rest }: FooterProps) {
         </div>
         <div className="flex items-center">
           <p className="text-sm text-main-3 flex-grow">
-            © Copyright 2018 - {new Date().getFullYear()} Saleor Commerce
+            © Copyright {new Date().getFullYear()} KuuzaMart.com
           </p>
           <div className="invisible md:visible flex gap-4">
             <ChannelDropdown horizontalAlignment="right" />
             <LocaleDropdown horizontalAlignment="right" />
           </div>
         </div>
-      </Box>
+      </div>
     </footer>
   );
 }

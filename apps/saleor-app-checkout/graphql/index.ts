@@ -12296,7 +12296,7 @@ export type Order = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     shippingTaxClass?: Maybe<TaxClass>;
     /**
@@ -13161,7 +13161,7 @@ export type OrderLine = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -15392,7 +15392,7 @@ export type Product = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -16583,7 +16583,7 @@ export type ProductType = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -19721,7 +19721,7 @@ export type ShippingMethodType = Node &
     /**
      * Tax class assigned to this shipping method.
      *
-     * Requires one of the following permissions: MANAGE_TAXES, MANAGE_SHIPPING.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /** Returns translated shipping method fields for the given language code. */

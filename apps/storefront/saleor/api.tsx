@@ -12298,7 +12298,7 @@ export type Order = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     shippingTaxClass?: Maybe<TaxClass>;
     /**
@@ -13163,7 +13163,7 @@ export type OrderLine = Node &
      *
      * Note: this API is currently in Feature Preview and can be subject to changes at later point.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -15394,7 +15394,7 @@ export type Product = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -16585,7 +16585,7 @@ export type ProductType = Node &
     /**
      * Tax class assigned to this product type. All products of this product type use this tax class, unless it's overridden in the `Product` type.
      *
-     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /**
@@ -19723,7 +19723,7 @@ export type ShippingMethodType = Node &
     /**
      * Tax class assigned to this shipping method.
      *
-     * Requires one of the following permissions: MANAGE_TAXES, MANAGE_SHIPPING.
+     * Requires one of the following permissions: AUTHENTICATED_STAFF_USER, AUTHENTICATED_APP.
      */
     taxClass?: Maybe<TaxClass>;
     /** Returns translated shipping method fields for the given language code. */
@@ -25286,6 +25286,16 @@ export type ProductCardFragment = {
     attribute: { __typename?: "Attribute"; slug?: string | null };
     values: Array<{ __typename?: "AttributeValue"; name?: string | null }>;
   }>;
+  pricing?: {
+    __typename?: "ProductPricingInfo";
+    priceRange?: {
+      __typename?: "TaxedMoneyRange";
+      start?: {
+        __typename?: "TaxedMoney";
+        gross: { __typename?: "Money"; currency: string; amount: number };
+      } | null;
+    } | null;
+  } | null;
 };
 
 export type ProductDetailsFragment = {
@@ -27569,6 +27579,16 @@ export type ProductCollectionQuery = {
           attribute: { __typename?: "Attribute"; slug?: string | null };
           values: Array<{ __typename?: "AttributeValue"; name?: string | null }>;
         }>;
+        pricing?: {
+          __typename?: "ProductPricingInfo";
+          priceRange?: {
+            __typename?: "TaxedMoneyRange";
+            start?: {
+              __typename?: "TaxedMoney";
+              gross: { __typename?: "Money"; currency: string; amount: number };
+            } | null;
+          } | null;
+        } | null;
       };
     }>;
     pageInfo: {
@@ -28071,8 +28091,18 @@ export const ProductCardFragmentDoc = gql`
         name
       }
     }
+    pricing {
+      priceRange {
+        start {
+          gross {
+            ...PriceFragment
+          }
+        }
+      }
+    }
   }
   ${ImageFragmentDoc}
+  ${PriceFragmentDoc}
 `;
 export const SelectedAttributeDetailsFragmentDoc = gql`
   fragment SelectedAttributeDetailsFragment on SelectedAttribute {

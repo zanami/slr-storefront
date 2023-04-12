@@ -1,3 +1,4 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
 const getSpacing = (base /* number */, unit /* "px" | "rem" */, values /* number[] */) =>
   values.reduce((acc, value) => ({ ...acc, [value]: base * value + unit }), {});
 
@@ -27,17 +28,17 @@ module.exports = {
       },
       colors: {
         action: {
-          1: "#5B68E4",
-          2: "rgba(91, 104, 228, 0.8)",
-          3: "rgba(91, 104, 228, 0.6)",
-          4: "rgba(91, 104, 228, 0.4)",
-          5: "rgba(91, 104, 228, 0.2)",
+          1: "#A2317A",
+          3: "rgba(162,49,122, 0.6)",
+          2: "rgba(162,49,122, 0.8)",
+          4: "rgba(162,49,122, 0.4)",
+          5: "rgba(162,49,122, 0.2)",
         },
         disabled: {
-          DEFAULT: "#C2D1E4",
+          DEFAULT: "#A38096",
         },
         brand: {
-          DEFAULT: "#5B68E4",
+          DEFAULT: "#A2317A",
         },
         main: {
           DEFAULT: "#394052",
@@ -56,7 +57,9 @@ module.exports = {
         DEFAULT: "1px",
       },
       fontFamily: {
-        sans: ["Inconsolata"],
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        display: ["Lexend", ...defaultTheme.fontFamily.sans],
+        // sans: ["Inconsolata"],
       },
       fontWeight: {
         normal: 400,

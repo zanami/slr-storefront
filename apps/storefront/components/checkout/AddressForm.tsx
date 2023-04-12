@@ -38,12 +38,14 @@ export function AddressForm({
       firstName: existingAddressData?.firstName || "",
       lastName: existingAddressData?.lastName || "",
       phone: existingAddressData?.phone || "",
-      country: "PL",
+      country: "UG",
       streetAddress1: existingAddressData?.streetAddress1 || "",
       city: existingAddressData?.city || "",
       postalCode: existingAddressData?.postalCode || "",
     },
   });
+
+  console.log("errorsAddress", errorsAddress);
 
   const onAddressFormSubmit = handleSubmitAddress(async (formData: AddressFormData) => {
     const errors = await updateAddressMutation(formData);
@@ -79,7 +81,7 @@ export function AddressForm({
                 pattern: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i,
               })}
             />
-            {!!errorsAddress.phone && <p>{errorsAddress.phone.message}</p>}
+            {!!errorsAddress.phone && <p>{errorsAddress.phone.message || "error"}</p>}
           </div>
         </div>
 

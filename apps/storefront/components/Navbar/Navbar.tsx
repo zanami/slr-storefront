@@ -71,10 +71,10 @@ export function Navbar() {
     <>
       <div className={clsx(styles.navbar)}>
         <div className={clsx(styles.inner)}>
-          <div className="flex-1 h-full hidden xs:flex">
+          <div className="flex-1 h-full hidden sm:flex">
             <Menu />
           </div>
-          <div className="flex-1 flex xs:justify-center">
+          <div className="flex-1 flex sm:justify-center">
             <Link href={paths.$url()} passHref legacyBehavior>
               <a href="pass" className={styles.logo}>
                 <Stamp />
@@ -94,6 +94,11 @@ export function Navbar() {
             <a href={externalCheckoutUrl} className="ml-2 hidden xs:flex" data-testid="cartIcon">
               <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
             </a>
+            <Link href={paths.cart.$url()} passHref legacyBehavior>
+              <a href="pass" className="hidden lg:flex ml-2">
+                <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
+              </a>
+            </Link>
             <Link href={paths.search.$url()} passHref legacyBehavior>
               <a href="pass" className="hidden lg:flex ml-2" data-testid="searchIcon">
                 <NavIconButton isButton={false} icon="spyglass" />

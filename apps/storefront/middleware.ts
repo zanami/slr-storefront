@@ -27,13 +27,13 @@ export function LocaleRedirectionMiddleware({
     locale = requestLocale;
   }
 
-  const requestCountry = geo?.country?.toLowerCase() || "us";
+  const requestCountry = geo?.country?.toLowerCase() || "ug";
   let channel = DEFAULT_CHANNEL.slug;
 
   // For the demo purposes channel redirection only recognizes PLN channel by country
-  if (requestCountry === "pl" && CHANNELS.find((ch) => ch.slug === "channel-pln")) {
-    channel = "channel-pln";
-  }
+  // if (requestCountry === "pl" && CHANNELS.find((ch) => ch.slug === "channel-pln")) {
+  //   channel = "channel-pln";
+  // }
 
   const url = nextUrl.clone();
   url.pathname = `/${channel}/${locale}`;
