@@ -91,9 +91,9 @@ export function Navbar() {
             ) : (
               <UserMenu />
             )}
-            <a href={externalCheckoutUrl} className="ml-2 hidden xs:flex" data-testid="cartIcon">
+            {/* <a href={externalCheckoutUrl} className="ml-2 hidden xs:flex" data-testid="cartIcon">
               <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
-            </a>
+            </a> */}
             <Link href={paths.cart.$url()} passHref legacyBehavior>
               <a href="pass" className="hidden lg:flex ml-2">
                 <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />

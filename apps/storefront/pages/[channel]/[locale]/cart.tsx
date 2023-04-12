@@ -9,7 +9,8 @@ import { messages } from "@/components/translations";
 import { usePaths } from "@/lib/paths";
 import { useCheckout } from "@/lib/providers/CheckoutProvider";
 
-const externalCheckoutBaseUrl = process.env.NEXT_PUBLIC_CHECKOUT_URL;
+const externalCheckoutBaseUrl = false;
+//const externalCheckoutBaseUrl = process.env.NEXT_PUBLIC_CHECKOUT_URL;
 
 function Cart() {
   const t = useIntl();
@@ -27,7 +28,6 @@ function Cart() {
   const externalCheckoutUrl = checkout
     ? `/checkout/?checkout=${checkout.id}&locale=${currentLocale}&channel=${currentChannel.slug}`
     : "";
-
   return (
     <>
       <BaseSeo title="Cart" />
@@ -78,7 +78,7 @@ function Cart() {
                       {t.formatMessage(messages.checkoutButton)}
                     </a>
                   ) : (
-                    <Link href={paths.checkout.$url()} passHref>
+                    <Link href={paths.checkout.$url()} passHref legacyBehavior>
                       <a
                         className="block w-full bg-blue-500 border border-transparent rounded-md shadow-sm py-3 px-4 text-center font-medium text-md text-white hover:bg-blue-700"
                         href="pass"

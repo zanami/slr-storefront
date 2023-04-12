@@ -57,7 +57,7 @@ export function VariantSelector({ product, selectedVariantID }: VariantSelectorP
                   className={clsx(
                     "bg-white w-full h-full relative cursor-pointer object-contain border-2",
                     checked && "border-brand",
-                    !checked && "hover:border-main border-main-2"
+                    !checked && "hover:border-main border-main-3"
                   )}
                 >
                   <RadioGroup.Label as="div" className="w-full justify-between p-4">

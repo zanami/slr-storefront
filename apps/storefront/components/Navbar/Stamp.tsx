@@ -8,7 +8,7 @@ interface StampProps {
 
 function Stamp({ width = 32, height = 33, ...rest }: StampProps) {
   return (
-    <div className="mt-px group block h-[65px] w-[150px] relative">
+    <div className="mt-px group block h-[30px] w-[150px] relative">
       <Image src="/kuuza-logo.png" alt="Kuuza Online Shopping" layout="fill" className="p2" />
     </div>
   );

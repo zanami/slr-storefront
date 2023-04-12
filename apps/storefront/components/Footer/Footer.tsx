@@ -38,7 +38,7 @@ export function Footer({ className, ...rest }: FooterProps) {
         <div className="flex mb-14 sm:mb-10">
           <Link href={paths.$url()} passHref legacyBehavior>
             <a href="pass" className="hidden sm:inline-block">
-              <div className="mt-px group block h-[65px] w-[150px] relative grayscale">
+              <div className="mt-px group block h-[30px] w-[150px] relative grayscale">
                 <Image src="/kuuza-logo.png" alt="Kuuza Online Shopping" layout="fill" />
               </div>
             </a>

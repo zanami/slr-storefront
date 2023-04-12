@@ -34,12 +34,10 @@ export function AttributeDetails({ product, selectedVariant }: AttributeDetailsP
                   return null;
                 }
                 return (
-                  <div key={value.id}>
-                    <p className="text-base">
-                      {translate(value, "name")}
-                      {attribute.values.length !== index + 1 && <div>{" | "}</div>}
-                    </p>
-                  </div>
+                  <span key={value.id} className="text-base">
+                    {translate(value, "name")}
+                    {attribute.values.length !== index + 1 && <>{" | "}</>}
+                  </span>
                 );
               })}
             </div>

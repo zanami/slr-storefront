@@ -7,6 +7,8 @@ import { usePaths } from "@/lib/paths";
 import { translate } from "@/lib/translations";
 import { ProductCardFragment } from "@/saleor/api";
 
+import { useRegions } from "../RegionsProvider";
+
 export interface ProductCardProps {
   product: ProductCardFragment;
 }
@@ -25,9 +27,19 @@ const getCardSecondaryDescription = (product: ProductCardFragment) => {
   return "";
 };
 
+const getCardPrice = (product: ProductCardFragment) => {
+  const { formatPrice } = useRegions();
+
+  if (product.pricing) {
+    return formatPrice(product.pricing?.priceRange?.start?.gross);
+  }
+  return "";
+};
+
 export function ProductCard({ product }: ProductCardProps) {
   const paths = usePaths();
   const secondaryDescription = getCardSecondaryDescription(product);
+  const displayPrice = getCardPrice(product);
   const thumbnailUrl = product.media?.find((media) => media.type === "IMAGE")?.url;
 
   return (
@@ -59,6 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {secondaryDescription && (
             <p className="block text-md font-normal text-main underline">{secondaryDescription}</p>
           )}
+          <p className="block text-md mt-4 font-medium text-main-1">{displayPrice}</p>
         </a>
       </Link>
     </li>
