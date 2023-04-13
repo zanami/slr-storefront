@@ -13,7 +13,7 @@ import styles from "./Navbar.module.css";
 import NavIconButton from "./NavIconButton";
 import Stamp from "./Stamp";
 import UserMenu from "./UserMenu";
-import { useRegions } from "@/components/RegionsProvider";
+// import { useRegions } from "@/components/RegionsProvider";
 import { invariant } from "@apollo/client/utilities/globals";
 import { useUser } from "@/lib/useUser";
 
@@ -25,7 +25,7 @@ export function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
   const { authenticated: actuallyAuthenticated } = useUser();
   const { checkout } = useCheckout();
-  const { currentLocale, currentChannel } = useRegions();
+  // const { currentLocale, currentChannel } = useRegions();
 
   // Avoid hydration warning by setting authenticated state in useEffect
   useEffect(() => {
@@ -34,22 +34,22 @@ export function Navbar() {
 
   const saleorApiUrl = process.env.NEXT_PUBLIC_API_URI;
   invariant(saleorApiUrl, "Missing NEXT_PUBLIC_API_URI");
-  const domain = new URL(saleorApiUrl).hostname;
+  // const domain = new URL(saleorApiUrl).hostname;
 
-  const checkoutParams = checkout
-    ? new URLSearchParams({
-        checkout: checkout.id,
-        locale: currentLocale,
-        channel: currentChannel.slug,
-        saleorApiUrl,
-        // @todo remove `domain`
-        // https://github.com/saleor/saleor-dashboard/issues/2387
-        // https://github.com/saleor/saleor-app-sdk/issues/87
-        domain,
-      })
-    : new URLSearchParams();
+  // const checkoutParams = checkout
+  //   ? new URLSearchParams({
+  //       checkout: checkout.id,
+  //       locale: currentLocale,
+  //       channel: currentChannel.slug,
+  //       saleorApiUrl,
+  //       // @todo remove `domain`
+  //       // https://github.com/saleor/saleor-dashboard/issues/2387
+  //       // https://github.com/saleor/saleor-app-sdk/issues/87
+  //       domain,
+  //     })
+  //   : new URLSearchParams();
 
-  const externalCheckoutUrl = checkout ? `/checkout/?${checkoutParams.toString()}` : "#";
+  // const externalCheckoutUrl = checkout ? `/checkout/?${checkoutParams.toString()}` : "#";
 
   useEffect(() => {
     // Close side menu after changing the page

@@ -27,19 +27,11 @@ const getCardSecondaryDescription = (product: ProductCardFragment) => {
   return "";
 };
 
-const getCardPrice = (product: ProductCardFragment) => {
-  const { formatPrice } = useRegions();
-
-  if (product.pricing) {
-    return formatPrice(product.pricing?.priceRange?.start?.gross);
-  }
-  return "";
-};
-
 export function ProductCard({ product }: ProductCardProps) {
   const paths = usePaths();
+  const { formatPrice } = useRegions();
   const secondaryDescription = getCardSecondaryDescription(product);
-  const displayPrice = getCardPrice(product);
+  const displayPrice = formatPrice(product.pricing?.priceRange?.start?.gross);
   const thumbnailUrl = product.media?.find((media) => media.type === "IMAGE")?.url;
 
   return (

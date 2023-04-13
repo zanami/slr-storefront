@@ -7,7 +7,7 @@ import { getLinkPath } from "@/lib/menus";
 import { usePaths } from "@/lib/paths";
 import { useFooterMenuQuery } from "@/saleor/api";
 
-import { Box } from "../Box";
+// import { Box } from "../Box";
 import { ChannelDropdown } from "../regionDropdowns/ChannelDropdown";
 import { LocaleDropdown } from "../regionDropdowns/LocaleDropdown";
 import { useRegions } from "../RegionsProvider";

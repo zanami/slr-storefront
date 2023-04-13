@@ -1,7 +1,7 @@
 import { ChipButton } from "@saleor/ui-kit";
 import React from "react";
 
-import { Box } from "../Box";
+// import { Box } from "../Box";
 import { RichText } from "../RichText";
 
 export interface PageHeroProps {
