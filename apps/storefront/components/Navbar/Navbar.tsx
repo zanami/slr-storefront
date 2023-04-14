@@ -95,12 +95,12 @@ export function Navbar() {
               <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
             </a> */}
             <Link href={checkout ? paths.cart.$url() : "#"} passHref legacyBehavior>
-              <a href="pass" className="hidden lg:flex ml-2">
+              <a href="pass" className="flex ml-2">
                 <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
               </a>
             </Link>
             <Link href={paths.search.$url()} passHref legacyBehavior>
-              <a href="pass" className="hidden lg:flex ml-2" data-testid="searchIcon">
+              <a href="pass" className="hidden xs:flex ml-2" data-testid="searchIcon">
                 <NavIconButton isButton={false} icon="spyglass" />
               </a>
             </Link>

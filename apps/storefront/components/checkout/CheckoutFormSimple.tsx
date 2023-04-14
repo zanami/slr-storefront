@@ -109,16 +109,17 @@ export function CheckoutForm() {
 
     setIsPaymentProcessing(true);
 
-    const address_errors = await checkoutShippingAddressUpdate({
-      variables: {
-        address: {
-          ...addressData,
+    const { data: shippingAddressData, errors: shippingAddressErrors } =
+      await checkoutShippingAddressUpdate({
+        variables: {
+          address: {
+            ...addressData,
+          },
+          token: checkout.token,
+          locale: query.locale,
         },
-        token: checkout.token,
-        locale: query.locale,
-      },
-    });
-    const billing_errors = await checkoutBillingAddressUpdate({
+      });
+    const { errors: billingAddressErrors } = await checkoutBillingAddressUpdate({
       variables: {
         address: {
           ...addressData,
@@ -139,7 +140,7 @@ export function CheckoutForm() {
       variables: {
         token: checkout.token,
         shippingMethodId: getShippingMethod(
-          address_errors.data?.checkoutShippingAddressUpdate?.checkout
+          shippingAddressData?.checkoutShippingAddressUpdate?.checkout
         ).id,
         locale: query.locale,
       },
@@ -152,12 +153,13 @@ export function CheckoutForm() {
 
     const errors = [
       ...(email_errors.data?.checkoutEmailUpdate?.errors.filter(notNullable) || []),
-      ...(address_errors.data?.checkoutShippingAddressUpdate?.errors.filter(notNullable) || []),
-      ...(billing_errors.data?.checkoutBillingAddressUpdate?.errors.filter(notNullable) || []),
+      ...(shippingAddressData?.checkoutShippingAddressUpdate?.errors.filter(notNullable) || []),
     ];
 
     // Assign errors to the form fields
-    if (errors.length > 0) {
+    if (errors.length > 0 || billingAddressErrors || shippingAddressErrors) {
+      console.log(errors);
+      setIsPaymentProcessing(false);
       errors.forEach((e) =>
         setErrorAddress(e.field as keyof SimpleFormData, {
           message: e.message || "",
