@@ -25798,6 +25798,7 @@ export type CheckoutBillingAddressUpdateMutationVariables = Exact<{
   token: Scalars["UUID"];
   address: AddressInput;
   locale: LanguageCodeEnum;
+  validationRules?: InputMaybe<CheckoutAddressValidationRules>;
 }>;
 
 export type CheckoutBillingAddressUpdateMutation = {
@@ -25988,6 +25989,7 @@ export type CreateCheckoutMutationVariables = Exact<{
   email?: InputMaybe<Scalars["String"]>;
   lines: Array<CheckoutLineInput> | CheckoutLineInput;
   channel: Scalars["String"];
+  country?: InputMaybe<CountryCode>;
 }>;
 
 export type CreateCheckoutMutation = {
@@ -26427,6 +26429,7 @@ export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   token: Scalars["UUID"];
   address: AddressInput;
   locale: LanguageCodeEnum;
+  validationRules?: InputMaybe<CheckoutAddressValidationRules>;
 }>;
 
 export type CheckoutShippingAddressUpdateMutation = {
@@ -28440,8 +28443,13 @@ export const CheckoutBillingAddressUpdateDocument = gql`
     $token: UUID!
     $address: AddressInput!
     $locale: LanguageCodeEnum!
+    $validationRules: CheckoutAddressValidationRules
   ) {
-    checkoutBillingAddressUpdate(billingAddress: $address, token: $token) {
+    checkoutBillingAddressUpdate(
+      billingAddress: $address
+      token: $token
+      validationRules: $validationRules
+    ) {
       checkout {
         ...CheckoutDetailsFragment
       }
@@ -28475,6 +28483,7 @@ export type CheckoutBillingAddressUpdateMutationFn = Apollo.MutationFunction<
  *      token: // value for 'token'
  *      address: // value for 'address'
  *      locale: // value for 'locale'
+ *      validationRules: // value for 'validationRules'
  *   },
  * });
  */
@@ -28569,8 +28578,21 @@ export type CheckoutCompleteMutationOptions = Apollo.BaseMutationOptions<
   CheckoutCompleteMutationVariables
 >;
 export const CreateCheckoutDocument = gql`
-  mutation CreateCheckout($email: String, $lines: [CheckoutLineInput!]!, $channel: String!) {
-    checkoutCreate(input: { channel: $channel, email: $email, lines: $lines }) {
+  mutation CreateCheckout(
+    $email: String
+    $lines: [CheckoutLineInput!]!
+    $channel: String!
+    $country: CountryCode = UG
+  ) {
+    checkoutCreate(
+      input: {
+        channel: $channel
+        email: $email
+        lines: $lines
+        shippingAddress: { country: $country }
+        validationRules: { shippingAddress: { checkRequiredFields: false } }
+      }
+    ) {
       checkout {
         id
         token
@@ -28604,6 +28626,7 @@ export type CreateCheckoutMutationFn = Apollo.MutationFunction<
  *      email: // value for 'email'
  *      lines: // value for 'lines'
  *      channel: // value for 'channel'
+ *      country: // value for 'country'
  *   },
  * });
  */
@@ -28869,8 +28892,13 @@ export const CheckoutShippingAddressUpdateDocument = gql`
     $token: UUID!
     $address: AddressInput!
     $locale: LanguageCodeEnum!
+    $validationRules: CheckoutAddressValidationRules
   ) {
-    checkoutShippingAddressUpdate(shippingAddress: $address, token: $token) {
+    checkoutShippingAddressUpdate(
+      token: $token
+      shippingAddress: $address
+      validationRules: $validationRules
+    ) {
       checkout {
         ...CheckoutDetailsFragment
       }
@@ -28904,6 +28932,7 @@ export type CheckoutShippingAddressUpdateMutationFn = Apollo.MutationFunction<
  *      token: // value for 'token'
  *      address: // value for 'address'
  *      locale: // value for 'locale'
+ *      validationRules: // value for 'validationRules'
  *   },
  * });
  */
@@ -29149,7 +29178,7 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
 export const RequestEmailChangeDocument = gql`
   mutation RequestEmailChange($newEmail: String!, $password: String!, $redirectUrl: String!) {
     requestEmailChange(
-      channel: "default-channel"
+      channel: "ug"
       newEmail: $newEmail
       password: $password
       redirectUrl: $redirectUrl

@@ -1,6 +1,6 @@
 mutation RequestEmailChange($newEmail: String!, $password: String!, $redirectUrl: String!) {
   requestEmailChange(
-    channel: "default-channel"
+    channel: "ug"
     newEmail: $newEmail
     password: $password
     redirectUrl: $redirectUrl

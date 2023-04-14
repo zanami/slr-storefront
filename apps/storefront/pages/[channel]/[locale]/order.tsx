@@ -10,7 +10,7 @@ function OrderCompletedPage() {
 
   return (
     <main className="container pt-8 px-8">
-      <CheckIcon className="text-green-700" />
+      <CheckIcon className="text-green-700 w-20 h-20" />
       <div className="font-semibold text-3xl">Your order is completed!</div>
       <p className="mt-2">
         <Link href={paths.$url()}>Go back to homepage</Link>
