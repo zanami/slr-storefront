@@ -35,8 +35,8 @@ export function Footer({ className, ...rest }: FooterProps) {
   return (
     <footer className={clsx(styles.footer, className)} {...rest}>
       <div className={styles["footer-inner"]}>
-        <div className="flex mb-14 sm:mb-10">
-          <div>
+        <div className="flex mb-10 flex-wrap">
+          <div className="order-last sm:order-none">
             <Link href={paths.$url()} passHref legacyBehavior>
               <a href="pass" className="hidden sm:inline-block">
                 <div className="mt-px group block h-[30px] w-[150px] relative grayscale">
