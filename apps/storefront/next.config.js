@@ -3,7 +3,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 
-console.log("ENV", process.env);
+// console.log("ENV", process.env);
 
 const apiURL = new URL(process.env.NEXT_PUBLIC_API_URI);
 const allowedImageDomains = process.env.NEXT_PUBLIC_ALLOWED_IMAGE_DOMAINS
@@ -18,6 +18,7 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: [apiURL.hostname, ...allowedImageDomains],
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 86400,
   },
   trailingSlash: true,
   webpack(config) {

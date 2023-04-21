@@ -63,7 +63,7 @@ export const getStaticProps = async (
     props: {
       product: response.data.product,
     },
-    revalidate: 60, // value in seconds, how often ISR will trigger on the server
+    revalidate: 3600, // value in seconds, how often ISR will trigger on the server
   };
 };
 function ProductPage({ product }: InferGetStaticPropsType<typeof getStaticProps>) {
