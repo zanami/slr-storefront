@@ -6,6 +6,7 @@ mutation CheckoutEmailUpdate($token: UUID!, $email: String!, $locale: LanguageCo
     errors {
       field
       message
+      code
     }
   }
 }

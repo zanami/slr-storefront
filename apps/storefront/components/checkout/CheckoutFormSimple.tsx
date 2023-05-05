@@ -10,6 +10,7 @@ import { usePaths } from "@/lib/paths";
 import { useCheckout } from "@/lib/providers/CheckoutProvider";
 import {
   CheckoutDetailsFragment,
+  CheckoutError,
   CountryCode,
   useCheckoutBillingAddressUpdateMutation,
   useCheckoutCompleteMutation,
@@ -23,6 +24,7 @@ import { useUser } from "@/lib/useUser";
 
 // import ShippingMethodDisplay from "./ShippingMethodDisplay";
 import CompleteCheckoutButton from "./CompleteCheckoutButton";
+import { GraphQLErrors } from "@apollo/client/errors";
 
 export const DUMMY_CREDIT_CARD_GATEWAY = "mirumee.payments.dummy";
 
@@ -48,6 +50,7 @@ export function CheckoutForm() {
   const [checkoutCompleteMutation] = useCheckoutCompleteMutation();
   const [checkoutShippingMethodUpdate] = useCheckoutShippingMethodUpdateMutation({});
   const [checkoutBillingAddressUpdate] = useCheckoutBillingAddressUpdateMutation({});
+  const [globalErrors, setGlobalErrors] = useState<string[]>([]);
 
   const paths = usePaths();
   const t = useIntl();
@@ -97,19 +100,71 @@ export function CheckoutForm() {
     setError: setErrorAddress,
   } = useForm<SimpleFormData>({
     defaultValues: defaultAddress,
+    mode: "onBlur",
   });
   if (!checkout) {
     return null;
   }
   console.log(checkout);
-  // main submit function
+
+  /**
+   * Handles common Saleor/GQL errors
+   */
+  const handleGlobalErrors = (
+    errors?: Partial<CheckoutError>[],
+    gql_errors?: GraphQLErrors
+  ): boolean => {
+    const apiErrors = errors?.length ? errors.map((e) => e.message || "Unknown error") : [];
+    const gqlErrors = gql_errors?.length ? gql_errors.map((e) => e.message || "Unknown error") : [];
+    if (apiErrors || gqlErrors) {
+      setIsPaymentProcessing(false);
+      setGlobalErrors([...apiErrors, ...gqlErrors]);
+    }
+    return true;
+  };
+  /**
+   * Handles Saleor response for particular fields
+   */
+  const handleFormErrors = (errors?: CheckoutError[], gql_errors?: GraphQLErrors): boolean => {
+    if (errors?.length) {
+      errors.forEach((e) =>
+        setErrorAddress(e.field as keyof SimpleFormData, {
+          message: e.message || "",
+        })
+      );
+      setIsPaymentProcessing(false);
+      return false;
+    }
+    if (gql_errors?.length) {
+      setIsPaymentProcessing(false);
+      return false;
+    }
+    return true;
+  };
+
+  /**
+   * Main submit handler
+   */
 
   const onSimpleFormSubmit = handleSubmitAddress(async (formData: SimpleFormData) => {
     const { email, ...addressData } = formData;
 
     setIsPaymentProcessing(true);
 
-    const { data: shippingAddressData, errors: shippingAddressErrors } =
+    // email
+    const { data: emailData, errors: emailGQLErrors } = await checkoutEmailUpdate({
+      variables: {
+        email: email,
+        token: checkout.token,
+        locale: query.locale,
+      },
+    });
+    const emailErrors = emailData?.checkoutEmailUpdate?.errors;
+
+    if (!handleFormErrors(emailErrors, emailGQLErrors)) return;
+
+    // Shipping Address
+    const { data: shippingAddressData, errors: shippingGQLErrors } =
       await checkoutShippingAddressUpdate({
         variables: {
           address: {
@@ -119,60 +174,37 @@ export function CheckoutForm() {
           locale: query.locale,
         },
       });
-    const { errors: billingAddressErrors } = await checkoutBillingAddressUpdate({
-      variables: {
-        address: {
-          ...addressData,
+    const shippingAddressErrors = shippingAddressData?.checkoutShippingAddressUpdate?.errors;
+    if (!handleFormErrors(shippingAddressErrors, shippingGQLErrors)) return;
+
+    // Billing Address
+    const { data: billingAddressData, errors: billingGQLErrors } =
+      await checkoutBillingAddressUpdate({
+        variables: {
+          address: {
+            ...addressData,
+          },
+          token: checkout.token,
+          locale: query.locale,
         },
-        token: checkout.token,
-        locale: query.locale,
-      },
-    });
-    const email_errors = await checkoutEmailUpdate({
-      variables: {
-        email: email,
-        token: checkout?.token,
-        locale: query.locale,
-      },
-    });
+      });
+    const billingAddressErrors = billingAddressData?.checkoutBillingAddressUpdate?.errors;
+    if (!handleFormErrors(billingAddressErrors, billingGQLErrors)) return;
 
-    const { data } = await checkoutShippingMethodUpdate({
-      variables: {
-        token: checkout.token,
-        shippingMethodId: getShippingMethod(
-          shippingAddressData?.checkoutShippingAddressUpdate?.checkout
-        ).id,
-        locale: query.locale,
-      },
-    });
-    if (data?.checkoutShippingMethodUpdate?.errors.length) {
-      // todo: handle errors
-      console.error(data?.checkoutShippingMethodUpdate?.errors);
-      return;
-    }
-
-    const errors = [
-      ...(email_errors.data?.checkoutEmailUpdate?.errors.filter(notNullable) || []),
-      ...(shippingAddressData?.checkoutShippingAddressUpdate?.errors.filter(notNullable) || []),
-    ];
-
-    // Assign errors to the form fields
-    if (errors.length > 0 || billingAddressErrors || shippingAddressErrors) {
-      console.log(errors);
-      setIsPaymentProcessing(false);
-      errors.forEach((e) =>
-        setErrorAddress(e.field as keyof SimpleFormData, {
-          message: e.message || "",
-        })
-      );
-      return;
-    }
-
-    // Address updated, we can exit the edit mode
-    // toggleEdit();
-
+    const { data: shippingMethodData, errors: methodGQLErrors } =
+      await checkoutShippingMethodUpdate({
+        variables: {
+          token: checkout.token,
+          shippingMethodId: getShippingMethod(
+            shippingAddressData?.checkoutShippingAddressUpdate?.checkout
+          ).id,
+          locale: query.locale,
+        },
+      });
+    const shippingMethodErrors = shippingMethodData?.checkoutShippingMethodUpdate?.errors;
+    if (!handleGlobalErrors(shippingMethodErrors, methodGQLErrors)) return;
     // Create Saleor payment
-    const { errors: paymentCreateErrors } = await checkoutPaymentCreateMutation({
+    const { data: paymentData, errors: paymentGQLErrors } = await checkoutPaymentCreateMutation({
       variables: {
         checkoutToken: checkout.token,
         paymentInput: {
@@ -183,30 +215,29 @@ export function CheckoutForm() {
       },
     });
 
-    if (paymentCreateErrors) {
-      console.error(paymentCreateErrors);
-      setIsPaymentProcessing(false);
-      return;
-    }
+    const paymentCreateErrors = paymentData?.checkoutPaymentCreate?.errors.map((e) => {
+      return {
+        message: e.message,
+        field: e.field,
+      };
+    });
+    if (!handleGlobalErrors(paymentCreateErrors, paymentGQLErrors)) return;
 
     // Try to complete the checkout
-    const { data: completeData, errors: completeErrors } = await checkoutCompleteMutation({
+    const { data: completeData, errors: completeGQLErrors } = await checkoutCompleteMutation({
       variables: {
         checkoutToken: checkout.token,
       },
     });
-    if (completeErrors) {
-      console.error("complete errors:", completeErrors);
-      setIsPaymentProcessing(false);
-      return;
-    }
+    const completeErrors = completeData?.checkoutComplete?.errors;
+    if (!handleGlobalErrors(completeErrors, completeGQLErrors)) return;
 
     const order = completeData?.checkoutComplete?.order;
     // If there are no errors during payment and confirmation, order should be created
     if (order) {
       return redirectToOrderDetailsPage();
     } else {
-      console.error("Order was not created");
+      setGlobalErrors([...globalErrors, "Sorry, unable to create order"]);
     }
   });
   return (
@@ -220,7 +251,7 @@ export function CheckoutForm() {
               </div>
             </div>
 
-            <div className="col-span-6">
+            <div className="col-span-full sm:col-span-6">
               <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                 {t.formatMessage(messages.emailAddressCardHeader)}
               </label>
@@ -232,13 +263,16 @@ export function CheckoutForm() {
                   spellCheck={false}
                   {...registerAddress("email", {
                     required: true,
-                    pattern: /^\S+@\S+$/i,
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i,
+                      message: "Incorrect email",
+                    },
                   })}
                 />
-                {!!errorsAddress.phone && <p>{errorsAddress.phone.message || "error"}</p>}
+                {!!errorsAddress.email && <p>{errorsAddress.email.message || "error"}</p>}
               </div>
             </div>
-            <div className="col-span-6">
+            <div className="col-span-full sm:col-span-6">
               <label htmlFor="address" className="block text-sm font-medium text-gray-700">
                 {t.formatMessage(messages.phoneField)}
               </label>
@@ -250,10 +284,19 @@ export function CheckoutForm() {
                   spellCheck={false}
                   {...registerAddress("phone", {
                     required: true,
-                    pattern: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i,
+                    minLength: {
+                      value: 6,
+                      message: "Too short", // JS only: <p>error message</p> TS only support string
+                    },
+                    pattern: {
+                      value: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i,
+                      message: "Incorrect format, please use +256-700-550197 or 0700-550197", // JS only: <p>error message</p> TS only support string
+                    },
                   })}
                 />
-                {!!errorsAddress.phone && <p>{errorsAddress.phone.message || "error"}</p>}
+                {!!errorsAddress.phone && (
+                  <p>{errorsAddress.phone.message || "Phone format error"}</p>
+                )}
               </div>
             </div>
 
@@ -351,6 +394,16 @@ export function CheckoutForm() {
                 )}
               </div>
             </div>
+            {globalErrors.length ? (
+              <div className="col-span-full mt-4 mb-4">
+                <h2 className="text-3xl">Oops!</h2>
+                {globalErrors.map((e) => (
+                  <p className="my-4 text-base font-medium text-red-700">{e}</p>
+                ))}
+              </div>
+            ) : (
+              ""
+            )}
             <div className="col-span-full">
               <CompleteCheckoutButton
                 isProcessing={isPaymentProcessing}

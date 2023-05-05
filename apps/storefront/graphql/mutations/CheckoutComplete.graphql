@@ -18,6 +18,7 @@ mutation checkoutComplete($checkoutToken: UUID!, $paymentData: JSONString) {
     errors {
       field
       message
+      code
       variants
       addressType
     }

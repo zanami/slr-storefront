@@ -9,6 +9,7 @@ mutation checkoutPaymentCreate($checkoutToken: UUID!, $paymentInput: PaymentInpu
     errors {
       field
       message
+      code
     }
   }
 }

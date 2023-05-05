@@ -10,6 +10,7 @@
     "build": "env-cmd --no-override -f .env env-cmd --no-override -f .env.local --fallback turbo run build --cache-dir=.turbo",
     "build:saleor-app-checkout": "pnpm run build --filter=saleor-app-checkout...",
     "build:storefront": "pnpm run build --filter=storefront...",
+    "dev:storefront": "env-cmd --no-override -f .env env-cmd -f .env.local --fallback turbo run dev --parallel --cache-dir=.turbo  --filter=storefront...",
     "start": "env-cmd --no-override -f .env env-cmd --no-override -f .env.local --fallback turbo run start --parallel --cache-dir=.turbo",
     "start:saleor-app-checkout": "pnpm turbo run start --filter=saleor-app-checkout...",
     "start:storefront": "pnpm run start --filter=storefront...",
