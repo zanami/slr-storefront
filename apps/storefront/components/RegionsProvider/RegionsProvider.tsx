@@ -9,10 +9,10 @@ import { formatAsMoney } from "@/lib/util";
 import { LanguageCodeEnum, PriceFragment } from "@/saleor/api";
 
 import * as sourceOfTruth from "../../locale/en-US.json";
-import * as fr from "../../locale/fr-FR.json";
-import * as pl from "../../locale/pl-PL.json";
-import * as vi from "../../locale/vi-VN.json";
-import * as ae from "../../locale/ar-AE.json";
+// import * as fr from "../../locale/fr-FR.json";
+// import * as pl from "../../locale/pl-PL.json";
+// import * as vi from "../../locale/vi-VN.json";
+// import * as ae from "../../locale/ar-AE.json";
 import { useApolloClient } from "@apollo/client";
 
 export interface RegionsConsumerProps {
@@ -36,14 +36,14 @@ export function importMessages(locale: string): LocaleMessages {
   switch (locale) {
     case "en-US":
       return sourceOfTruth;
-    case "pl-PL":
-      return pl;
-    case "fr-FR":
-      return fr;
-    case "vi-VN":
-      return vi;
-    case "ar-AE":
-      return ae;
+    // case "pl-PL":
+    //   return pl;
+    // case "fr-FR":
+    //   return fr;
+    // case "vi-VN":
+    //   return vi;
+    // case "ar-AE":
+    //   return ae;
     default:
       return sourceOfTruth;
   }

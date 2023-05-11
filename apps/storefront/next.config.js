@@ -130,5 +130,8 @@ module.exports = withBundleAnalyzer({
       },
     ];
   },
-  experimental: {},
+  experimental: {
+    // Defaults to 50MB ISR https://nextjs.org/docs/pages/building-your-application/rendering/incremental-static-regeneration#self-hosting-isr
+    isrMemoryCacheSize: 0,
+  },
 });

@@ -15,7 +15,7 @@ export const LOCALES = [
 ];
 export const DEFAULT_LOCALE = "en-US";
 
-export const CHANNEL_SLUG_KEY = "channelSlug";
+// export const CHANNEL_SLUG_KEY = "channelSlug";
 
 export interface Channel {
   slug: string;
