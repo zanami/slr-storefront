@@ -31,7 +31,7 @@
     "clean": "rm -rf .turbo; turbo run clean",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "heroku-postbuild": "pnpm run build:saleor-app-checkout"
+    "heroku-postbuild": "pnpm run build:storefront"
   },
   "devDependencies": {
     "cypress": "10.11.0",
