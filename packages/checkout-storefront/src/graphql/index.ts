@@ -19,7 +19,7 @@ export type Scalars = {
   DateTime: string;
   Decimal: any;
   GenericScalar: any;
-  JSON: any;
+  JSON: Record<string, any>;
   JSONString: string;
   Metadata: Record<string, string>;
   Minute: any;
@@ -25795,13 +25795,6 @@ export type _Service = {
   sdl?: Maybe<Scalars["String"]>;
 };
 
-export type AccountErrorFragment = {
-  __typename?: "AccountError";
-  message?: string | null;
-  field?: string | null;
-  code: AccountErrorCode;
-};
-
 export type CheckoutErrorFragment = {
   __typename?: "CheckoutError";
   message?: string | null;
@@ -25831,6 +25824,14 @@ export type ValidationRulesFragment = {
   }>;
 };
 
+export type PaymentGatewayFragment = {
+  __typename?: "PaymentGateway";
+  id: string;
+  name: string;
+  currencies: Array<string>;
+  config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+};
+
 export type CheckoutFragment = {
   __typename?: "Checkout";
   id: string;
@@ -25838,6 +25839,8 @@ export type CheckoutFragment = {
   voucherCode?: string | null;
   discountName?: string | null;
   translatedDiscountName?: string | null;
+  authorizeStatus: CheckoutAuthorizeStatusEnum;
+  chargeStatus: CheckoutChargeStatusEnum;
   isShippingRequired: boolean;
   discount?: { __typename?: "Money"; currency: string; amount: number } | null;
   giftCards: Array<{
@@ -25878,7 +25881,13 @@ export type CheckoutFragment = {
     country: { __typename?: "CountryDisplay"; country: string; code: string };
   } | null;
   user?: { __typename?: "User"; id: string; email: string } | null;
-  availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+  availablePaymentGateways: Array<{
+    __typename?: "PaymentGateway";
+    id: string;
+    name: string;
+    currencies: Array<string>;
+    config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+  }>;
   deliveryMethod?:
     | { __typename?: "ShippingMethod"; id: string }
     | { __typename?: "Warehouse"; id: string }
@@ -25893,7 +25902,7 @@ export type CheckoutFragment = {
   }>;
   totalPrice: {
     __typename?: "TaxedMoney";
-    gross: { __typename?: "Money"; amount: number; currency: string };
+    gross: { __typename?: "Money"; currency: string; amount: number };
     tax: { __typename?: "Money"; currency: string; amount: number };
   };
   shippingPrice: {
@@ -26041,6 +26050,8 @@ export type CheckoutQuery = {
     voucherCode?: string | null;
     discountName?: string | null;
     translatedDiscountName?: string | null;
+    authorizeStatus: CheckoutAuthorizeStatusEnum;
+    chargeStatus: CheckoutChargeStatusEnum;
     isShippingRequired: boolean;
     discount?: { __typename?: "Money"; currency: string; amount: number } | null;
     giftCards: Array<{
@@ -26081,7 +26092,13 @@ export type CheckoutQuery = {
       country: { __typename?: "CountryDisplay"; country: string; code: string };
     } | null;
     user?: { __typename?: "User"; id: string; email: string } | null;
-    availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+    availablePaymentGateways: Array<{
+      __typename?: "PaymentGateway";
+      id: string;
+      name: string;
+      currencies: Array<string>;
+      config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+    }>;
     deliveryMethod?:
       | { __typename?: "ShippingMethod"; id: string }
       | { __typename?: "Warehouse"; id: string }
@@ -26096,7 +26113,7 @@ export type CheckoutQuery = {
     }>;
     totalPrice: {
       __typename?: "TaxedMoney";
-      gross: { __typename?: "Money"; amount: number; currency: string };
+      gross: { __typename?: "Money"; currency: string; amount: number };
       tax: { __typename?: "Money"; currency: string; amount: number };
     };
     shippingPrice: {
@@ -26197,6 +26214,8 @@ export type CheckoutLinesUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26237,7 +26256,13 @@ export type CheckoutLinesUpdateMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -26252,7 +26277,7 @@ export type CheckoutLinesUpdateMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -26342,6 +26367,8 @@ export type CheckoutLineDeleteMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26382,7 +26409,13 @@ export type CheckoutLineDeleteMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -26397,7 +26430,7 @@ export type CheckoutLineDeleteMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -26487,6 +26520,8 @@ export type CheckoutEmailUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26527,7 +26562,13 @@ export type CheckoutEmailUpdateMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -26542,7 +26583,7 @@ export type CheckoutEmailUpdateMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -26631,6 +26672,8 @@ export type CheckoutCustomerAttachMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26671,7 +26714,13 @@ export type CheckoutCustomerAttachMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -26686,7 +26735,7 @@ export type CheckoutCustomerAttachMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -26753,104 +26802,6 @@ export type CheckoutCustomerAttachMutation = {
   } | null;
 };
 
-export type UserAddressDeleteMutationVariables = Exact<{
-  id: Scalars["ID"];
-}>;
-
-export type UserAddressDeleteMutation = {
-  __typename?: "Mutation";
-  accountAddressDelete?: {
-    __typename?: "AccountAddressDelete";
-    errors: Array<{
-      __typename?: "AccountError";
-      message?: string | null;
-      field?: string | null;
-      code: AccountErrorCode;
-    }>;
-    address?: {
-      __typename?: "Address";
-      id: string;
-      city: string;
-      phone?: string | null;
-      postalCode: string;
-      companyName: string;
-      cityArea: string;
-      streetAddress1: string;
-      streetAddress2: string;
-      countryArea: string;
-      firstName: string;
-      lastName: string;
-      country: { __typename?: "CountryDisplay"; country: string; code: string };
-    } | null;
-  } | null;
-};
-
-export type UserAddressUpdateMutationVariables = Exact<{
-  id: Scalars["ID"];
-  address: AddressInput;
-}>;
-
-export type UserAddressUpdateMutation = {
-  __typename?: "Mutation";
-  accountAddressUpdate?: {
-    __typename?: "AccountAddressUpdate";
-    errors: Array<{
-      __typename?: "AccountError";
-      message?: string | null;
-      field?: string | null;
-      code: AccountErrorCode;
-    }>;
-    address?: {
-      __typename?: "Address";
-      id: string;
-      city: string;
-      phone?: string | null;
-      postalCode: string;
-      companyName: string;
-      cityArea: string;
-      streetAddress1: string;
-      streetAddress2: string;
-      countryArea: string;
-      firstName: string;
-      lastName: string;
-      country: { __typename?: "CountryDisplay"; country: string; code: string };
-    } | null;
-  } | null;
-};
-
-export type UserAddressCreateMutationVariables = Exact<{
-  address: AddressInput;
-  type?: InputMaybe<AddressTypeEnum>;
-}>;
-
-export type UserAddressCreateMutation = {
-  __typename?: "Mutation";
-  accountAddressCreate?: {
-    __typename?: "AccountAddressCreate";
-    errors: Array<{
-      __typename?: "AccountError";
-      message?: string | null;
-      field?: string | null;
-      code: AccountErrorCode;
-    }>;
-    address?: {
-      __typename?: "Address";
-      id: string;
-      city: string;
-      phone?: string | null;
-      postalCode: string;
-      companyName: string;
-      cityArea: string;
-      streetAddress1: string;
-      streetAddress2: string;
-      countryArea: string;
-      firstName: string;
-      lastName: string;
-      country: { __typename?: "CountryDisplay"; country: string; code: string };
-    } | null;
-  } | null;
-};
-
 export type CheckoutShippingAddressUpdateMutationVariables = Exact<{
   checkoutId: Scalars["ID"];
   shippingAddress: AddressInput;
@@ -26875,6 +26826,8 @@ export type CheckoutShippingAddressUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -26915,7 +26868,13 @@ export type CheckoutShippingAddressUpdateMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -26930,7 +26889,7 @@ export type CheckoutShippingAddressUpdateMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -27021,6 +26980,8 @@ export type CheckoutBillingAddressUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27061,7 +27022,13 @@ export type CheckoutBillingAddressUpdateMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -27076,7 +27043,7 @@ export type CheckoutBillingAddressUpdateMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -27166,6 +27133,8 @@ export type CheckoutDeliveryMethodUpdateMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27206,7 +27175,13 @@ export type CheckoutDeliveryMethodUpdateMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -27221,7 +27196,7 @@ export type CheckoutDeliveryMethodUpdateMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -27333,6 +27308,8 @@ export type CheckoutAddPromoCodeMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27373,7 +27350,13 @@ export type CheckoutAddPromoCodeMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -27388,7 +27371,7 @@ export type CheckoutAddPromoCodeMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -27479,6 +27462,8 @@ export type CheckoutRemovePromoCodeMutation = {
       voucherCode?: string | null;
       discountName?: string | null;
       translatedDiscountName?: string | null;
+      authorizeStatus: CheckoutAuthorizeStatusEnum;
+      chargeStatus: CheckoutChargeStatusEnum;
       isShippingRequired: boolean;
       discount?: { __typename?: "Money"; currency: string; amount: number } | null;
       giftCards: Array<{
@@ -27519,7 +27504,13 @@ export type CheckoutRemovePromoCodeMutation = {
         country: { __typename?: "CountryDisplay"; country: string; code: string };
       } | null;
       user?: { __typename?: "User"; id: string; email: string } | null;
-      availablePaymentGateways: Array<{ __typename?: "PaymentGateway"; id: string; name: string }>;
+      availablePaymentGateways: Array<{
+        __typename?: "PaymentGateway";
+        id: string;
+        name: string;
+        currencies: Array<string>;
+        config: Array<{ __typename?: "GatewayConfigLine"; field: string; value?: string | null }>;
+      }>;
       deliveryMethod?:
         | { __typename?: "ShippingMethod"; id: string }
         | { __typename?: "Warehouse"; id: string }
@@ -27534,7 +27525,7 @@ export type CheckoutRemovePromoCodeMutation = {
       }>;
       totalPrice: {
         __typename?: "TaxedMoney";
-        gross: { __typename?: "Money"; amount: number; currency: string };
+        gross: { __typename?: "Money"; currency: string; amount: number };
         tax: { __typename?: "Money"; currency: string; amount: number };
       };
       shippingPrice: {
@@ -27601,6 +27592,24 @@ export type CheckoutRemovePromoCodeMutation = {
   } | null;
 };
 
+export type CheckoutCompleteMutationVariables = Exact<{
+  checkoutId: Scalars["ID"];
+}>;
+
+export type CheckoutCompleteMutation = {
+  __typename?: "Mutation";
+  checkoutComplete?: {
+    __typename?: "CheckoutComplete";
+    errors: Array<{
+      __typename?: "CheckoutError";
+      message?: string | null;
+      field?: string | null;
+      code: CheckoutErrorCode;
+    }>;
+    order?: { __typename?: "Order"; id: string } | null;
+  } | null;
+};
+
 export type MoneyFragment = { __typename?: "Money"; currency: string; amount: number };
 
 export type OrderLineFragment = {
@@ -27651,6 +27660,8 @@ export type OrderFragment = {
   number: string;
   userEmail?: string | null;
   isPaid: boolean;
+  chargeStatus: OrderChargeStatusEnum;
+  authorizeStatus: OrderAuthorizeStatusEnum;
   discounts: Array<{
     __typename?: "OrderDiscount";
     type: OrderDiscountType;
@@ -27761,6 +27772,8 @@ export type OrderQuery = {
     number: string;
     userEmail?: string | null;
     isPaid: boolean;
+    chargeStatus: OrderChargeStatusEnum;
+    authorizeStatus: OrderAuthorizeStatusEnum;
     discounts: Array<{
       __typename?: "OrderDiscount";
       type: OrderDiscountType;
@@ -27859,6 +27872,153 @@ export type OrderQuery = {
   } | null;
 };
 
+export type PaymentGatewaysInitializeMutationVariables = Exact<{
+  checkoutId: Scalars["ID"];
+  paymentGateways?: InputMaybe<Array<PaymentGatewayToInitialize> | PaymentGatewayToInitialize>;
+}>;
+
+export type PaymentGatewaysInitializeMutation = {
+  __typename?: "Mutation";
+  paymentGatewayInitialize?: {
+    __typename?: "PaymentGatewayInitialize";
+    errors: Array<{
+      __typename?: "PaymentGatewayInitializeError";
+      field?: string | null;
+      message?: string | null;
+      code: PaymentGatewayInitializeErrorCode;
+    }>;
+    gatewayConfigs?: Array<{
+      __typename?: "PaymentGatewayConfig";
+      id: string;
+      data?: Record<string, any> | null;
+      errors?: Array<{
+        __typename?: "PaymentGatewayConfigError";
+        field?: string | null;
+        message?: string | null;
+        code: PaymentGatewayConfigErrorCode;
+      }> | null;
+    }> | null;
+  } | null;
+};
+
+export type TransactionInitializeMutationVariables = Exact<{
+  checkoutId: Scalars["ID"];
+  action?: InputMaybe<TransactionFlowStrategyEnum>;
+  paymentGateway: PaymentGatewayToInitialize;
+  amount?: InputMaybe<Scalars["PositiveDecimal"]>;
+}>;
+
+export type TransactionInitializeMutation = {
+  __typename?: "Mutation";
+  transactionInitialize?: {
+    __typename?: "TransactionInitialize";
+    data?: Record<string, any> | null;
+    transaction?: {
+      __typename?: "TransactionItem";
+      id: string;
+      actions: Array<TransactionActionEnum>;
+    } | null;
+    transactionEvent?: {
+      __typename?: "TransactionEvent";
+      message: string;
+      type?: TransactionEventTypeEnum | null;
+    } | null;
+    errors: Array<{
+      __typename?: "TransactionInitializeError";
+      field?: string | null;
+      code: TransactionInitializeErrorCode;
+      message?: string | null;
+    }>;
+  } | null;
+};
+
+export type TransactionProcessMutationVariables = Exact<{
+  id: Scalars["ID"];
+  data?: InputMaybe<Scalars["JSON"]>;
+}>;
+
+export type TransactionProcessMutation = {
+  __typename?: "Mutation";
+  transactionProcess?: {
+    __typename?: "TransactionProcess";
+    data?: Record<string, any> | null;
+    transaction?: {
+      __typename?: "TransactionItem";
+      id: string;
+      actions: Array<TransactionActionEnum>;
+    } | null;
+    transactionEvent?: {
+      __typename?: "TransactionEvent";
+      message: string;
+      type?: TransactionEventTypeEnum | null;
+    } | null;
+    errors: Array<{
+      __typename?: "TransactionProcessError";
+      field?: string | null;
+      code: TransactionProcessErrorCode;
+      message?: string | null;
+    }>;
+  } | null;
+};
+
+export type AccountErrorFragment = {
+  __typename?: "AccountError";
+  message?: string | null;
+  field?: string | null;
+  code: AccountErrorCode;
+};
+
+export type UserFragment = {
+  __typename?: "User";
+  id: string;
+  email: string;
+  addresses: Array<{
+    __typename?: "Address";
+    id: string;
+    city: string;
+    phone?: string | null;
+    postalCode: string;
+    companyName: string;
+    cityArea: string;
+    streetAddress1: string;
+    streetAddress2: string;
+    countryArea: string;
+    firstName: string;
+    lastName: string;
+    country: { __typename?: "CountryDisplay"; country: string; code: string };
+  }>;
+  defaultBillingAddress?: {
+    __typename?: "Address";
+    id: string;
+    city: string;
+    phone?: string | null;
+    postalCode: string;
+    companyName: string;
+    cityArea: string;
+    streetAddress1: string;
+    streetAddress2: string;
+    countryArea: string;
+    firstName: string;
+    lastName: string;
+    country: { __typename?: "CountryDisplay"; country: string; code: string };
+  } | null;
+  defaultShippingAddress?: {
+    __typename?: "Address";
+    id: string;
+    city: string;
+    phone?: string | null;
+    postalCode: string;
+    companyName: string;
+    cityArea: string;
+    streetAddress1: string;
+    streetAddress2: string;
+    countryArea: string;
+    firstName: string;
+    lastName: string;
+    country: { __typename?: "CountryDisplay"; country: string; code: string };
+  } | null;
+};
+
 export type UserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UserQuery = {
@@ -27951,13 +28111,254 @@ export type RequestPasswordResetMutation = {
   } | null;
 };
 
-export const AccountErrorFragmentDoc = gql`
-  fragment AccountErrorFragment on AccountError {
-    message
-    field
-    code
-  }
-`;
+export type UserAddressDeleteMutationVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type UserAddressDeleteMutation = {
+  __typename?: "Mutation";
+  accountAddressDelete?: {
+    __typename?: "AccountAddressDelete";
+    user?: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      addresses: Array<{
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      }>;
+      defaultBillingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+      defaultShippingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+    } | null;
+    errors: Array<{
+      __typename?: "AccountError";
+      message?: string | null;
+      field?: string | null;
+      code: AccountErrorCode;
+    }>;
+    address?: {
+      __typename?: "Address";
+      id: string;
+      city: string;
+      phone?: string | null;
+      postalCode: string;
+      companyName: string;
+      cityArea: string;
+      streetAddress1: string;
+      streetAddress2: string;
+      countryArea: string;
+      firstName: string;
+      lastName: string;
+      country: { __typename?: "CountryDisplay"; country: string; code: string };
+    } | null;
+  } | null;
+};
+
+export type UserAddressUpdateMutationVariables = Exact<{
+  id: Scalars["ID"];
+  address: AddressInput;
+}>;
+
+export type UserAddressUpdateMutation = {
+  __typename?: "Mutation";
+  accountAddressUpdate?: {
+    __typename?: "AccountAddressUpdate";
+    user?: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      addresses: Array<{
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      }>;
+      defaultBillingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+      defaultShippingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+    } | null;
+    errors: Array<{
+      __typename?: "AccountError";
+      message?: string | null;
+      field?: string | null;
+      code: AccountErrorCode;
+    }>;
+    address?: {
+      __typename?: "Address";
+      id: string;
+      city: string;
+      phone?: string | null;
+      postalCode: string;
+      companyName: string;
+      cityArea: string;
+      streetAddress1: string;
+      streetAddress2: string;
+      countryArea: string;
+      firstName: string;
+      lastName: string;
+      country: { __typename?: "CountryDisplay"; country: string; code: string };
+    } | null;
+  } | null;
+};
+
+export type UserAddressCreateMutationVariables = Exact<{
+  address: AddressInput;
+  type?: InputMaybe<AddressTypeEnum>;
+}>;
+
+export type UserAddressCreateMutation = {
+  __typename?: "Mutation";
+  accountAddressCreate?: {
+    __typename?: "AccountAddressCreate";
+    user?: {
+      __typename?: "User";
+      id: string;
+      email: string;
+      addresses: Array<{
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      }>;
+      defaultBillingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+      defaultShippingAddress?: {
+        __typename?: "Address";
+        id: string;
+        city: string;
+        phone?: string | null;
+        postalCode: string;
+        companyName: string;
+        cityArea: string;
+        streetAddress1: string;
+        streetAddress2: string;
+        countryArea: string;
+        firstName: string;
+        lastName: string;
+        country: { __typename?: "CountryDisplay"; country: string; code: string };
+      } | null;
+    } | null;
+    errors: Array<{
+      __typename?: "AccountError";
+      message?: string | null;
+      field?: string | null;
+      code: AccountErrorCode;
+    }>;
+    address?: {
+      __typename?: "Address";
+      id: string;
+      city: string;
+      phone?: string | null;
+      postalCode: string;
+      companyName: string;
+      cityArea: string;
+      streetAddress1: string;
+      streetAddress2: string;
+      countryArea: string;
+      firstName: string;
+      lastName: string;
+      country: { __typename?: "CountryDisplay"; country: string; code: string };
+    } | null;
+  } | null;
+};
+
 export const CheckoutErrorFragmentDoc = gql`
   fragment CheckoutErrorFragment on CheckoutError {
     message
@@ -28012,6 +28413,17 @@ export const AddressFragmentDoc = gql`
     }
     firstName
     lastName
+  }
+`;
+export const PaymentGatewayFragmentDoc = gql`
+  fragment PaymentGatewayFragment on PaymentGateway {
+    id
+    name
+    currencies
+    config {
+      field
+      value
+    }
   }
 `;
 export const CheckoutLineFragmentDoc = gql`
@@ -28095,38 +28507,15 @@ export const CheckoutFragmentDoc = gql`
     billingAddress {
       ...AddressFragment
     }
+    authorizeStatus
+    chargeStatus
     isShippingRequired
     user {
       id
       email
     }
     availablePaymentGateways {
-      id
-      name
-    }
-    deliveryMethod {
-      ... on ShippingMethod {
-        id
-      }
-      ... on Warehouse {
-        id
-      }
-    }
-    shippingMethods {
-      id
-      name
-      price {
-        ...Money
-      }
-    }
-    totalPrice {
-      gross {
-        amount
-      }
-    }
-    availablePaymentGateways {
-      id
-      name
+      ...PaymentGatewayFragment
     }
     deliveryMethod {
       ... on ShippingMethod {
@@ -28170,10 +28559,11 @@ export const CheckoutFragmentDoc = gql`
   ${MoneyFragmentDoc}
   ${GiftCardFragmentDoc}
   ${AddressFragmentDoc}
+  ${PaymentGatewayFragmentDoc}
   ${CheckoutLineFragmentDoc}
 `;
 export const ShippingFragmentDoc = gql`
-  fragment Shipping on ShippingMethod {
+  fragment ShippingFragment on ShippingMethod {
     name
     minimumDeliveryDays
     maximumDeliveryDays
@@ -28221,7 +28611,7 @@ export const OrderLineFragmentDoc = gql`
   ${MoneyFragmentDoc}
 `;
 export const OrderFragmentDoc = gql`
-  fragment Order on Order {
+  fragment OrderFragment on Order {
     id
     number
     userEmail
@@ -28233,6 +28623,8 @@ export const OrderFragmentDoc = gql`
         ...Money
       }
     }
+    chargeStatus
+    authorizeStatus
     shippingAddress {
       ...AddressFragment
     }
@@ -28240,7 +28632,7 @@ export const OrderFragmentDoc = gql`
       ...AddressFragment
     }
     deliveryMethod {
-      ...Shipping
+      ...ShippingFragment
     }
     total {
       gross {
@@ -28277,6 +28669,29 @@ export const OrderFragmentDoc = gql`
   ${AddressFragmentDoc}
   ${ShippingFragmentDoc}
   ${OrderLineFragmentDoc}
+`;
+export const AccountErrorFragmentDoc = gql`
+  fragment AccountErrorFragment on AccountError {
+    message
+    field
+    code
+  }
+`;
+export const UserFragmentDoc = gql`
+  fragment UserFragment on User {
+    id
+    email
+    addresses {
+      ...AddressFragment
+    }
+    defaultBillingAddress {
+      ...AddressFragment
+    }
+    defaultShippingAddress {
+      ...AddressFragment
+    }
+  }
+  ${AddressFragmentDoc}
 `;
 export const CheckoutDocument = gql`
   query checkout($id: ID!, $languageCode: LanguageCodeEnum!) {
@@ -28394,66 +28809,6 @@ export const CheckoutCustomerAttachDocument = gql`
 export function useCheckoutCustomerAttachMutation() {
   return Urql.useMutation<CheckoutCustomerAttachMutation, CheckoutCustomerAttachMutationVariables>(
     CheckoutCustomerAttachDocument
-  );
-}
-export const UserAddressDeleteDocument = gql`
-  mutation userAddressDelete($id: ID!) {
-    accountAddressDelete(id: $id) {
-      errors {
-        ...AccountErrorFragment
-      }
-      address {
-        ...AddressFragment
-      }
-    }
-  }
-  ${AccountErrorFragmentDoc}
-  ${AddressFragmentDoc}
-`;
-
-export function useUserAddressDeleteMutation() {
-  return Urql.useMutation<UserAddressDeleteMutation, UserAddressDeleteMutationVariables>(
-    UserAddressDeleteDocument
-  );
-}
-export const UserAddressUpdateDocument = gql`
-  mutation userAddressUpdate($id: ID!, $address: AddressInput!) {
-    accountAddressUpdate(id: $id, input: $address) {
-      errors {
-        ...AccountErrorFragment
-      }
-      address {
-        ...AddressFragment
-      }
-    }
-  }
-  ${AccountErrorFragmentDoc}
-  ${AddressFragmentDoc}
-`;
-
-export function useUserAddressUpdateMutation() {
-  return Urql.useMutation<UserAddressUpdateMutation, UserAddressUpdateMutationVariables>(
-    UserAddressUpdateDocument
-  );
-}
-export const UserAddressCreateDocument = gql`
-  mutation userAddressCreate($address: AddressInput!, $type: AddressTypeEnum) {
-    accountAddressCreate(type: $type, input: $address) {
-      errors {
-        ...AccountErrorFragment
-      }
-      address {
-        ...AddressFragment
-      }
-    }
-  }
-  ${AccountErrorFragmentDoc}
-  ${AddressFragmentDoc}
-`;
-
-export function useUserAddressCreateMutation() {
-  return Urql.useMutation<UserAddressCreateMutation, UserAddressCreateMutationVariables>(
-    UserAddressCreateDocument
   );
 }
 export const CheckoutShippingAddressUpdateDocument = gql`
@@ -28612,10 +28967,29 @@ export function useCheckoutRemovePromoCodeMutation() {
     CheckoutRemovePromoCodeMutationVariables
   >(CheckoutRemovePromoCodeDocument);
 }
+export const CheckoutCompleteDocument = gql`
+  mutation checkoutComplete($checkoutId: ID!) {
+    checkoutComplete(id: $checkoutId) {
+      errors {
+        ...CheckoutErrorFragment
+      }
+      order {
+        id
+      }
+    }
+  }
+  ${CheckoutErrorFragmentDoc}
+`;
+
+export function useCheckoutCompleteMutation() {
+  return Urql.useMutation<CheckoutCompleteMutation, CheckoutCompleteMutationVariables>(
+    CheckoutCompleteDocument
+  );
+}
 export const OrderDocument = gql`
   query order($id: ID!, $languageCode: LanguageCodeEnum!) {
     order(id: $id) {
-      ...Order
+      ...OrderFragment
     }
   }
   ${OrderFragmentDoc}
@@ -28624,23 +28998,105 @@ export const OrderDocument = gql`
 export function useOrderQuery(options: Omit<Urql.UseQueryArgs<OrderQueryVariables>, "query">) {
   return Urql.useQuery<OrderQuery, OrderQueryVariables>({ query: OrderDocument, ...options });
 }
-export const UserDocument = gql`
-  query user {
-    user: me {
-      id
-      email
-      addresses {
-        ...AddressFragment
+export const PaymentGatewaysInitializeDocument = gql`
+  mutation paymentGatewaysInitialize(
+    $checkoutId: ID!
+    $paymentGateways: [PaymentGatewayToInitialize!]
+  ) {
+    paymentGatewayInitialize(id: $checkoutId, paymentGateways: $paymentGateways) {
+      errors {
+        field
+        message
+        code
       }
-      defaultBillingAddress {
-        ...AddressFragment
-      }
-      defaultShippingAddress {
-        ...AddressFragment
+      gatewayConfigs {
+        id
+        data
+        errors {
+          field
+          message
+          code
+        }
       }
     }
   }
-  ${AddressFragmentDoc}
+`;
+
+export function usePaymentGatewaysInitializeMutation() {
+  return Urql.useMutation<
+    PaymentGatewaysInitializeMutation,
+    PaymentGatewaysInitializeMutationVariables
+  >(PaymentGatewaysInitializeDocument);
+}
+export const TransactionInitializeDocument = gql`
+  mutation transactionInitialize(
+    $checkoutId: ID!
+    $action: TransactionFlowStrategyEnum
+    $paymentGateway: PaymentGatewayToInitialize!
+    $amount: PositiveDecimal
+  ) {
+    transactionInitialize(
+      id: $checkoutId
+      action: $action
+      paymentGateway: $paymentGateway
+      amount: $amount
+    ) {
+      transaction {
+        id
+        actions
+      }
+      transactionEvent {
+        message
+        type
+      }
+      data
+      errors {
+        field
+        code
+        message
+      }
+    }
+  }
+`;
+
+export function useTransactionInitializeMutation() {
+  return Urql.useMutation<TransactionInitializeMutation, TransactionInitializeMutationVariables>(
+    TransactionInitializeDocument
+  );
+}
+export const TransactionProcessDocument = gql`
+  mutation transactionProcess($id: ID!, $data: JSON) {
+    transactionProcess(id: $id, data: $data) {
+      transaction {
+        id
+        actions
+      }
+      transactionEvent {
+        message
+        type
+      }
+      data
+      errors {
+        field
+        code
+        message
+      }
+    }
+  }
+`;
+
+export function useTransactionProcessMutation() {
+  return Urql.useMutation<TransactionProcessMutation, TransactionProcessMutationVariables>(
+    TransactionProcessDocument
+  );
+}
+export const UserDocument = gql`
+  query user {
+    user: me {
+      ...UserFragment
+    }
+  }
+  ${UserFragmentDoc}
 `;
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, "query">) {
@@ -28678,5 +29134,77 @@ export const RequestPasswordResetDocument = gql`
 export function useRequestPasswordResetMutation() {
   return Urql.useMutation<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(
     RequestPasswordResetDocument
+  );
+}
+export const UserAddressDeleteDocument = gql`
+  mutation userAddressDelete($id: ID!) {
+    accountAddressDelete(id: $id) {
+      user {
+        ...UserFragment
+      }
+      errors {
+        ...AccountErrorFragment
+      }
+      address {
+        ...AddressFragment
+      }
+    }
+  }
+  ${UserFragmentDoc}
+  ${AccountErrorFragmentDoc}
+  ${AddressFragmentDoc}
+`;
+
+export function useUserAddressDeleteMutation() {
+  return Urql.useMutation<UserAddressDeleteMutation, UserAddressDeleteMutationVariables>(
+    UserAddressDeleteDocument
+  );
+}
+export const UserAddressUpdateDocument = gql`
+  mutation userAddressUpdate($id: ID!, $address: AddressInput!) {
+    accountAddressUpdate(id: $id, input: $address) {
+      user {
+        ...UserFragment
+      }
+      errors {
+        ...AccountErrorFragment
+      }
+      address {
+        ...AddressFragment
+      }
+    }
+  }
+  ${UserFragmentDoc}
+  ${AccountErrorFragmentDoc}
+  ${AddressFragmentDoc}
+`;
+
+export function useUserAddressUpdateMutation() {
+  return Urql.useMutation<UserAddressUpdateMutation, UserAddressUpdateMutationVariables>(
+    UserAddressUpdateDocument
+  );
+}
+export const UserAddressCreateDocument = gql`
+  mutation userAddressCreate($address: AddressInput!, $type: AddressTypeEnum) {
+    accountAddressCreate(type: $type, input: $address) {
+      user {
+        ...UserFragment
+      }
+      errors {
+        ...AccountErrorFragment
+      }
+      address {
+        ...AddressFragment
+      }
+    }
+  }
+  ${UserFragmentDoc}
+  ${AccountErrorFragmentDoc}
+  ${AddressFragmentDoc}
+`;
+
+export function useUserAddressCreateMutation() {
+  return Urql.useMutation<UserAddressCreateMutation, UserAddressCreateMutationVariables>(
+    UserAddressCreateDocument
   );
 }
